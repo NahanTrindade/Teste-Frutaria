@@ -1,0 +1,50 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model fruit {
+  id              String   @id @default(uuid())
+  name            String   @unique
+  image_url       String   @default("")
+  measure_id      String
+  measure         measures @relation(fields: [measure_id], references: [id])
+  expiration_days Int
+
+  price        Decimal        @db.Money
+  fruits_stock fruits_stock[]
+  fruit_batch  fruit_batch[]
+}
+
+model measures {
+  id    String  @id @default(uuid())
+  name  String  @unique //TODO - KG, UNIDADE, CAIXA OU DÚZIA
+  fruit fruit[]
+}
+
+model fruits_stock {
+  id           Int    @id @default(autoincrement())
+  actual_stock Int
+  max_stock    Int
+  min_stock    Int //TODO - Alertar o administrador para providenciar reposição
+  fruit_id     String @unique
+  fruit        fruit  @relation(fields: [fruit_id], references: [id], onDelete: Cascade)
+}
+
+model fruit_batch {
+  id Int @id @default(autoincrement())
+
+  received_date          DateTime @default(now())
+  manual_inspection_date DateTime
+  fruit_id               String
+  fruit                  fruit    @relation(fields: [fruit_id], references: [id], onDelete: Cascade)
+}
