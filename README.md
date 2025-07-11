@@ -1,13 +1,11 @@
-# 🥝 Frutalina - Sistema de Gestão de Estoque
-
-Frutalina é um sistema web completo para o gerenciamento de estoque de frutas, verduras e vegetais, desenvolvido como projeto de avaliação. O sistema foi construído em um **monorepositório**, com o **backend** em NestJS e o **frontend** em Angular, organizados em pastas distintas.
+ O sistema foi construído em um **monorepositório**, com o **backend** em NestJS e o **frontend** em Angular, organizados em pastas distintas.
 
 ---
 
 ## 📁 Estrutura do Repositório
 
 ```
-frutalina/
+frutaria/
 ├── backend/       # API em NestJS com Prisma e PostgreSQL
 ├── frontend/      # Interface web em Angular
 └── README.md      # Este arquivo
