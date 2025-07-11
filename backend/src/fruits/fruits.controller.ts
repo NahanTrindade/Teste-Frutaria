@@ -1,32 +1,22 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { FruitsService } from './fruits.service';
-import {
-  CreateFruitDto,
-  findFruitByIdDto,
-  findFruitByNameDto,
-} from './dto/fruits.dto';
 
 @Controller('fruits')
 export class FruitsController {
   constructor(private readonly fruitService: FruitsService) {}
 
-  @Post()
-  create(@Body() dto: CreateFruitDto) {
-    return this.fruitService.create(dto);
-  }
-
   @Get(':name')
-  findByName(@Param() dto: findFruitByNameDto) {
-    return this.fruitService.findFruitByName(dto);
+  findByName(@Param() name: string) {
+    return this.fruitService.findProductByName(name);
   }
 
   @Get(':id')
-  findById(@Param() dto: findFruitByIdDto) {
-    return this.fruitService.findFruitById(dto);
+  findById(@Param() id: number) {
+    return this.fruitService.findProductById(id);
   }
 
   @Get()
   findAll() {
-    return this.fruitService.findAllFruits();
+    return this.fruitService.getAllProducts();
   }
 }

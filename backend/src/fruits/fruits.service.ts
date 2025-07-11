@@ -1,31 +1,31 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import {
-  CreateFruitDto,
-  findFruitByIdDto,
-  findFruitByNameDto,
-} from './dto/fruits.dto';
 
 @Injectable()
 export class FruitsService {
   constructor(private readonly prisma: PrismaService) {}
-  async create(CreateFruitDto: CreateFruitDto) {
-    return await this.prisma.fruit.create({ data: CreateFruitDto });
-  }
-
-  async findFruitById(findFruitByIdDto: findFruitByIdDto) {
-    return await this.prisma.fruit.findFirst({
-      where: { id: findFruitByIdDto.id },
+  async getAllProducts() {
+    return await this.prisma.fruit.findMany({
+      select: {
+        name: true,
+        image_url: true,
+        measures: { select: { name: true } },
+        type: { select: { id: true, name: true } },
+        price: true,
+        actual_stock: true,
+      },
     });
   }
 
-  async findFruitByName(findFruitByNameDto: findFruitByNameDto) {
+  async findProductById(id: number) {
     return await this.prisma.fruit.findFirst({
-      where: { name: findFruitByNameDto.name },
+      where: { id },
     });
   }
 
-  async findAllFruits() {
-    return await this.prisma.fruit.findMany();
+  async findProductByName(name: string) {
+    return await this.prisma.fruit.findFirst({
+      where: { name: { contains: name } },
+    });
   }
 }

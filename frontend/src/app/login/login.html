@@ -1,0 +1,45 @@
+<main class="w-full h-screen flex justify-center items-center bg-gray-200">
+  <div class="w-full p-4 h-2/3 md:w-1/2">
+    <form
+      (ngSubmit)="onSubmit()"
+      class="h-full flex flex-col items-center justify-between gap-2 bg-white rounded-xl py-10 px-4 md:px-8"
+    >
+      <div class="w-full flex flex-col items-center gap-4">
+        <h1 class="font-semibold text-5xl">Frutaria - Login</h1>
+        <div class="flex flex-col w-full gap-2">
+          <label for="" class="text-2xl pl-2">Email</label>
+          <input
+            type="email"
+            name="email"
+            [(ngModel)]="email"
+            required
+            placeholder="Informe o seu email"
+            class="w-full rounded-md border border-gray-500 placeholder:text-gray-500 pl-4 h-10 text-gray-800 hover:border-[#04AA6D]"
+          />
+        </div>
+        <div class="flex flex-col w-full gap-2">
+          <label for="" class="text-2xl pl-2">Senha</label>
+          <input
+            type="password"
+            name="password"
+            [(ngModel)]="password"
+            required
+            placeholder="Informe o seu email"
+            class="w-full rounded-md border border-gray-500 placeholder:text-gray-500 pl-4 h-10 text-gray-800 hover:border-[#04AA6D]"
+          />
+        </div>
+
+        @if (error) {
+        <div class="text-xl font-semibold text-red-500 mt-6">{{ error }}</div>
+        }
+      </div>
+
+      <button
+        type="submit"
+        class="w-full rounded-md text-white font-semibold bg-[#04AA6D] h-12 hover:cursor-pointer"
+      >
+        Entrar
+      </button>
+    </form>
+  </div>
+</main>

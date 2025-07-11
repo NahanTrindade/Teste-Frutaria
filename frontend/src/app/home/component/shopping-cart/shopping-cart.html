@@ -1,0 +1,79 @@
+@if (sidebarIsOpen) {
+<div class="h-full w-full md:w-1/3 fixed left-0 top-0 z-50 bg-white">
+  <div class="p-4 h-full flex flex-col justify-between">
+    <div>
+      <div
+        class="flex justify-between items-center mb-6 border-b border-gray-300"
+      >
+        <button
+          (click)="onClose()"
+          class="px-2 py-2 w-10 hover:cursor-pointer hover:bg-gray-200 rounded-xl"
+        >
+          <img src="/assets/icons/close.svg" />
+        </button>
+        <span class="font-semibold text-2xl">Meu carrinho</span>
+        <button
+          (click)="onClearShoppingCart()"
+          class="px-3 py-2 hover:cursor-pointer hover:bg-gray-200 rounded-xl font-semibold"
+        >
+          Limpar
+        </button>
+      </div>
+
+      <div class="flex flex-col gap-4">
+        @for (item of shoppingCartItems; track $index) {
+        <div class="flex w-full justify-between py-2 px-4 rounded-lg shadow-lg">
+          <div class="flex gap-4">
+            <img [src]="item.image_url" alt="image" width="68px" />
+            <div class="flex flex-col justify-between">
+              <p class="text-gray-500 text-lg">
+                {{ item.name }}
+              </p>
+              <p class="font-semibold text-lg">
+                R${{ item.price * item.quantity }}
+              </p>
+            </div>
+          </div>
+          <div class="flex flex-col items-end justify-between">
+            <img
+              (click)="onRemoveItem($index)"
+              src="assets/icons/delete.svg"
+              class="hover:cursor-pointer"
+              width="30px"
+            />
+            <div class="flex gap-2 items-center">
+              <button
+                (click)="onDecrementItem($index)"
+                [disabled]="item.quantity === 1"
+                class="bg-[#04AA6D] rounded-xl p-1 hover:cursor-pointer disabled:opacity-50"
+              >
+                <img src="/assets/icons/minus.svg" />
+              </button>
+              <p class="font-semibold bg-gray-300 rounded-xl px-4">
+                {{ item.quantity }}
+              </p>
+              <button
+                (click)="onIncrementItem($index)"
+                class="bg-[#04AA6D] rounded-xl p-1 hover:cursor-pointer"
+              >
+                <img src="/assets/icons/plus.svg" />
+              </button>
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+    </div>
+    <button
+      (click)="onFinalize()"
+      [disabled]="shoppingCartItems.length === 0"
+      class="w-full flex justify-between bg-[#04AA6D] rounded-xl py-4 px-4 text-white hover:cursor-pointer disabled:opacity-50"
+    >
+      <p class="font-bold text-lg">Finalizar compra</p>
+      <p class="font-bold text-lg">R${{ totalValue }}</p>
+    </button>
+  </div>
+</div>
+} @else {
+<span></span>
+}

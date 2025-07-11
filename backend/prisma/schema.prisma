@@ -8,43 +8,40 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model user {
+  id       String @id @default(uuid())
+  email    String @unique
+  password String
 }
 
 model fruit {
-  id              String   @id @default(uuid())
-  name            String   @unique
-  image_url       String   @default("")
-  measure_id      String
-  measure         measures @relation(fields: [measure_id], references: [id])
-  expiration_days Int
+  id           Int     @id @default(autoincrement())
+  name         String  @unique
+  image_url    String
+  type_id      Int
+  measures_id  Int
+  price        Decimal @db.Decimal()
+  actual_stock Int
+  max_stock    Int
+  min_stock    Int
 
-  price        Decimal        @db.Money
-  fruits_stock fruits_stock[]
-  fruit_batch  fruit_batch[]
+  type     type      @relation(fields: [type_id], references: [id])
+  measures measures? @relation(fields: [measures_id], references: [id])
 }
 
-model measures {
-  id    String  @id @default(uuid())
-  name  String  @unique //TODO - KG, UNIDADE, CAIXA OU DÚZIA
+model type {
+  id    Int     @id @default(autoincrement())
+  name  String
   fruit fruit[]
 }
 
-model fruits_stock {
-  id           Int    @id @default(autoincrement())
-  actual_stock Int
-  max_stock    Int
-  min_stock    Int //TODO - Alertar o administrador para providenciar reposição
-  fruit_id     String @unique
-  fruit        fruit  @relation(fields: [fruit_id], references: [id], onDelete: Cascade)
-}
-
-model fruit_batch {
-  id Int @id @default(autoincrement())
-
-  received_date          DateTime @default(now())
-  manual_inspection_date DateTime
-  fruit_id               String
-  fruit                  fruit    @relation(fields: [fruit_id], references: [id], onDelete: Cascade)
+model measures {
+  id    Int     @id @default(autoincrement())
+  name  String  @unique //TODO - KG, UNIDADE, CAIXA OU DÚZIA
+  fruit fruit[]
 }

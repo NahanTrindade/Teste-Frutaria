@@ -1,0 +1,76 @@
+<header>
+  <nav class="w-full px-3 h-[84px] fixed top-0 bg-white shadow-xl z-10">
+    <div class="flex items-center justify-between w-full py-4 h-full">
+      <button
+        class="bg-[#04AA6D] rounded-lg h-10 px-3 flex items-center gap-2 hover:cursor-pointer"
+        (click)="openSidebar()"
+      >
+        <img src="/assets/icons/shopping-cart.svg" width="20px" />
+        <p class="hidden md:block text-white font-semibold">Carrinho</p>
+      </button>
+
+      <div class="flex w-2/3 h-10">
+        <input
+          type="text"
+          name="search"
+          id="searchParam"
+          placeholder="O que você procura?"
+          class="w-full rounded-l-xl border border-gray-500 text-gray-400 pl-4 hover:border-[#04AA6D]"
+        />
+        <button type="submit" class="bg-[#04AA6D] rounded-r-xl px-3">
+          <img src="/assets/icons/search.svg" />
+        </button>
+      </div>
+
+      @if ( !isLogged) {
+      <a
+        href="/login"
+        class="bg-[#04AA6D] rounded-lg h-10 px-3 flex items-center gap-2"
+      >
+        <img src="/assets/icons/login.svg" width="20px" />
+        <p class="hidden md:block text-white font-semibold">Login</p>
+      </a>
+      } @else {
+      <a
+        (click)="logout()"
+        class="bg-[#04AA6D] rounded-lg h-10 px-3 flex items-center gap-2 hover:cursor-pointer"
+      >
+        <img src="/assets/icons/login.svg" width="20px" />
+        <p class="hidden md:block text-white font-semibold">Sair</p>
+      </a>
+      }
+    </div>
+  </nav>
+</header>
+
+<main class="pt-[120px] flex flex-col gap-6 bg-gray-100 mb-12">
+  <app-carousel
+    [items]="frutas"
+    type="Frutas"
+    (addToCart)="handleAddToCart($event)"
+  ></app-carousel>
+  <app-carousel
+    [items]="folhosos"
+    type="Vegetais Folhosos"
+    (addToCart)="handleAddToCart($event)"
+  ></app-carousel>
+  <app-carousel
+    [items]="raizes"
+    type="Raízes e Tubérculos"
+    (addToCart)="handleAddToCart($event)"
+  ></app-carousel>
+  <app-carousel
+    [items]="bulbos"
+    type="Bulbos"
+    (addToCart)="handleAddToCart($event)"
+  ></app-carousel>
+</main>
+<app-shopping-cart
+  (decrementItem)="handleDecrementItem($event)"
+  (incrementItem)="handleIncrementItem($event)"
+  (removeItem)="handleRemoveItem($event)"
+  (closeSidebar)="closeSidebar()"
+  (clearShoppingCart)="clearShoppingCart()"
+  [shoppingCartItems]="shoppingCart"
+  [sidebarIsOpen]="sidebarIsOpen"
+></app-shopping-cart>
